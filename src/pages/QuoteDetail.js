@@ -1,14 +1,12 @@
 import { Fragment, useEffect } from 'react'
-import { useParams, Route, Link, useRouteMatch } from 'react-router-dom'
+import { useParams, Outlet } from 'react-router-dom'
 
 import HighlightedQuote from '../components/quotes/HighlightedQuote'
-import Comments from '../components/comments/Comments'
 import useHttp from '../hooks/use-https'
 import { getSingleQuote } from '../lib/api'
 import LoadingSpinner from '../components/UI/LoadingSpinner'
 
 const QuoteDetail = () => {
-  const match = useRouteMatch()
   const params = useParams()
 
   const { quoteId } = params
@@ -43,18 +41,10 @@ const QuoteDetail = () => {
   return (
     <Fragment>
       <HighlightedQuote text={loadedQuote.text} author={loadedQuote.author} />
-      <Route path={match.path} exact>
-        <div className="centered">
-          <Link className="btn--flat" to={`${match.url}/comments`}>
-            Load Comments
-          </Link>
-        </div>
-      </Route>
-      <Route path={`${match.path}/comments`}>
-        <Comments />
-      </Route>
+      <Outlet />
     </Fragment>
   )
 }
+//Outlet 類似VUE巢狀路由router-view的功能
 
 export default QuoteDetail
